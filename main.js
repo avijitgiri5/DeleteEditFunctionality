@@ -1,10 +1,14 @@
 let form = document.querySelector('#addForm');
 let listItems = document.querySelector('#items');
+let filter=document.querySelector('#filter');
 
 ///form submit Event
 form.addEventListener('submit', onsubmit);
 //delete items
 listItems.addEventListener('click', removeItem);
+
+//filtar event
+filter.addEventListener('keyup',filterItems)
 
 //add value
 function onsubmit(e) {
@@ -64,4 +68,23 @@ function removeItem(e) {
         }
 
     }
+}
+
+//filter items
+function filterItems(e) {
+    //convert text to lowercase
+    let text = e.target.value.toLowerCase();
+    //get li
+    let items = listItems.getElementsByTagName('li')
+    //convert list item in to array
+    Array.from(items).forEach(function (itm) {
+        let listname = itm.firstChild.textContent;
+        if (listname.toLowerCase().indexOf(text) != -1) {
+            itm.style.display = 'block'
+        }
+        else {
+            itm.style.display = 'none'
+        }
+
+    });
 }
