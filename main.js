@@ -1,3 +1,4 @@
+
 let form = document.querySelector('#addForm');
 let listItems = document.querySelector('#items');
 let filter=document.querySelector('#filter');
@@ -10,12 +11,24 @@ listItems.addEventListener('click', removeItem);
 //filtar event
 filter.addEventListener('keyup',filterItems)
 
+//create new textbox
+
+let disbox=document.createElement('input')
+disbox.className='form-control mr-2'
+disbox.setAttribute('id','discribetxt')
+disbox.type='text'
+
+//insrt textbox  into dom
+let submitbtn=document.getElementById('submit');
+form.insertBefore(disbox,submitbtn);
+
 //add value
 function onsubmit(e) {
     e.preventDefault();
 
     //get input value;
     let newitem = document.querySelector('#item').value;
+    let discribetxtitem=document.querySelector('#discribetxt').value;
 
     //create new li element
     let li = document.createElement('li');
@@ -26,7 +39,8 @@ function onsubmit(e) {
 
     //add text into the li
 
-    li.appendChild(document.createTextNode(newitem));
+    li.appendChild(document.createTextNode(newitem +" "+ discribetxtitem));
+    console.log(li)
 
     //add edit button
     let editbtn = document.createElement('button');
@@ -75,11 +89,12 @@ function filterItems(e) {
     //convert text to lowercase
     let text = e.target.value.toLowerCase();
     //get li
-    let items = listItems.getElementsByTagName('li')
+    let items = listItems.getElementsByTagName('li')//html collection in the array
     //convert list item in to array
     Array.from(items).forEach(function (itm) {
         let listname = itm.firstChild.textContent;
-        if (listname.toLowerCase().indexOf(text) != -1) {
+       let description=itm.childNodes[1].textContent;
+        if (listname.toLowerCase().indexOf(text) != -1 || description.toLowerCase().indexOf(text) != -1) {
             itm.style.display = 'block'
         }
         else {
@@ -88,3 +103,5 @@ function filterItems(e) {
 
     });
 }
+
+
